@@ -33,7 +33,8 @@ while codeLoop == True:
 
     matchRequest = int(matchRequest)
 
-    # match numbers are in column 0, red alliance scores are in column 1, blue alliance scores are in column 2
+    # for my sample spreadsheet, match numbers are in column 0, red alliance scores are in column 1, blue alliance scores are in column 2. adjust to match your spreadsheet design as needed
+    # your [0,0] will be the first row/column that isn't a header
     # iat asks for [row, column] in the square brackets
 
     scoutingRedScore = scoutingSheet.iat[matchRequest-1,1]
