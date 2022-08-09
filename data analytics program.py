@@ -77,9 +77,17 @@ while codeLoop == True:
         print("Blue alliance score is more than 5% different than the official score. Looks like something is up with your data.")
 
     
-    userChoice = input("Would you like to look at another match? (y/n): ")
+    incorrectAnswer = True
 
-    if userChoice == "n":
-        break
-    else:
-        pass
+    while incorrectAnswer == True:
+
+        userChoice = input("Would you like to look at another match? (y/n): ")
+
+        if userChoice != "n" and userChoice != "y":
+            print("Invalid input. Try again.")
+            incorrectAnswer = True
+        elif userChoice == "y":
+            incorrectAnswer = False
+        elif userChoice == "n":
+            incorrectAnswer = False
+            codeLoop = False
