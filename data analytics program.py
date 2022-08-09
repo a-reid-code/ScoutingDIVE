@@ -27,7 +27,7 @@ print("At " + eventCode + ", there were " + str(len(scoutingSheet)) + " matches.
 while codeLoop == True:
 
     
-    matchRequest = input("Which qualification match would you like to compare?: ")
+    matchRequest = input("Which qualification match would you like to view?: ")
 
     eventMatchCode = str(yearRequest + eventRequest + "_qm" + matchRequest)
 
@@ -48,6 +48,15 @@ while codeLoop == True:
 
     tbaRequest = json.loads(requests.get('https://www.thebluealliance.com/api/v3/match/' + eventMatchCode, headers={'X-TBA-Auth-Key':authKey}).text)
 
+    
+    scoutingRedScoreFouls = scoutingSheet.iat[matchRequest-1,1]+tbaRequest["score_breakdown"]["red"]["foulPoints"]
+    scoutingBlueScoreFouls = scoutingSheet.iat[matchRequest-1,2]+tbaRequest["score_breakdown"]["blue"]["foulPoints"]
+
+
+    print("Red scouting score WITH fouls: " + str(scoutingRedScoreFouls))
+    print("Blue scouting score WITH fouls: " + str(scoutingBlueScoreFouls))
+    
+    
     tbaRedScore = tbaRequest["alliances"]["red"]["score"]
     tbaBlueScore = tbaRequest["alliances"]["blue"]["score"]
 
@@ -55,14 +64,7 @@ while codeLoop == True:
     print("TBA Red Alliance Score: " + str(tbaRedScore))
     print("TBA Blue Alliance Score: " + str(tbaBlueScore))
 
-    scoutingRedScoreFouls = scoutingSheet.iat[matchRequest-1,1]+tbaRequest["score_breakdown"]["red"]["foulPoints"]
-    scoutingBlueScoreFouls = scoutingSheet.iat[matchRequest-1,2]+tbaRequest["score_breakdown"]["blue"]["foulPoints"]
-
-
-    print("Red scouting score WITH fouls: " + str(scoutingRedScoreFouls))
-    print("Blue scouting score WITH fouls: " + str(scoutingBlueScoreFouls))
-
-
+  
     if abs((tbaRedScore-scoutingRedScoreFouls)) <= tbaRedScore / 20:
         print("Red alliance score is within 5% of the official score. Nice work, scouters!")
     elif abs((tbaRedScore-scoutingRedScoreFouls)) >= tbaRedScore / 20:
